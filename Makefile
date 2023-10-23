@@ -41,5 +41,3 @@ $(BONUS): $(LIBFT) $(BONUS_OBJ_FILES)
 	$(CC) $(FLAGS) $(BONUS_OBJ_FILES) $(LIBS) -o $(BONUS) 
 
 bonus: $(BONUS)
-
-$(NAME): libft
