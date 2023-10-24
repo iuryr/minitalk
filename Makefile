@@ -3,7 +3,7 @@ BONUS = minitalk_bonus
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -c
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
@@ -18,7 +18,7 @@ OBJ_FILES = $(SERVER_SRC_FILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_FILES)  
-	$(CC) $(FLAGS) server.o -o server $(LIBS) 
+	$(CC) $(FLAGS) server.c -o server $(LIBS)
 
 %.o : %.c
 	$(CC) $(CFLAGS) $< -o $@
