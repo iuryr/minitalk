@@ -19,6 +19,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_FILES)  
 	$(CC) $(FLAGS) server.c -o server $(LIBS)
+	$(CC) $(FLAGS) client.c -o client $(LIBS)
 
 %.o : %.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -31,8 +32,8 @@ clean:
 	$(MAKE) -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f minitalk_bonus
+	rm -f server
+	rm -f client
 	$(MAKE) -C libft fclean
 
 re: fclean $(NAME)
