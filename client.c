@@ -6,7 +6,7 @@
 /*   By: iusantos <iusantos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:25:13 by iusantos          #+#    #+#             */
-/*   Updated: 2023/10/26 16:11:02 by iusantos         ###   ########.fr       */
+/*   Updated: 2023/10/26 18:11:01 by iusantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	signal_handler(int signum)
 	else if (signum == SIGUSR2)
 	{
 		ft_printf("Message fully transmited. Bye-bye.\n");
-		exit(1);
+		exit(0);
 	}
 }
 

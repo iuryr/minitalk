@@ -6,7 +6,7 @@
 /*   By: iusantos <iusantos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:07:48 by iusantos          #+#    #+#             */
-/*   Updated: 2023/10/25 15:56:24 by iusantos         ###   ########.fr       */
+/*   Updated: 2023/10/26 18:19:37 by iusantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ void	accumulate_bit(unsigned char *c, unsigned char bit)
 unsigned char *add_to_str(unsigned char *str, unsigned char c, size_t len)
 {
 	unsigned char *temp;
+	int	i;
 
-	temp = str;
-	str = malloc(len * sizeof(unsigned char));
+	i = 0;
+	temp = (unsigned char *)ft_strdup((char *)str);
+	free(str);
+	str = malloc((len + 1) * sizeof(unsigned char));
 	if (!str)
 		exit(1);
 	ft_memcpy(str, temp, len - 1);
@@ -43,9 +46,11 @@ int		save_to_str(unsigned char c)
 	if (c == '\0')
 	{
 		ft_printf("%s\n", str);
+		free(str);
 		str = NULL;
+		return (0);
 	}
-	else if (!str)
+	if (!str)
 	{
 		str = malloc(2 * sizeof(unsigned char));
 		if (!str)
@@ -68,15 +73,15 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	{
 			i++; // mudar de linha
 			accumulate_bit(&c, 0);
-			ft_printf("SIGUSR1 Received from %d\n", info->si_pid);
-			ft_printf("Signals received until now: %i\n", i);
+			// ft_printf("SIGUSR1 Received from %d\n", info->si_pid);
+			// ft_printf("Signals received until now: %i\n", i);
 	}
 	else if (sig == SIGUSR2)
 	{
 			i++; // mudar de linha
 			accumulate_bit(&c, 1);
-			ft_printf("SIGUSR2 Received from %d\n", info->si_pid);
-			ft_printf("Signals received until now: %i\n", i);
+			// ft_printf("SIGUSR2 Received from %d\n", info->si_pid);
+			// ft_printf("Signals received until now: %i\n", i);
 	}
 	if (i == 8)
 	{
@@ -85,10 +90,8 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 		save_to_str(c);
 		i = 0; //reiniciar contagem
 	}
-	if (kill(info->si_pid, SIGUSR1) == -1)
-		ft_printf("%s\n", strerror(errno));
+	kill(info->si_pid, SIGUSR1);
 	context = NULL;
-	usleep(5);
 }
 
 int main(void)
