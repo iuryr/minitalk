@@ -6,13 +6,11 @@
 /*   By: iusantos <iusantos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:07:48 by iusantos          #+#    #+#             */
-/*   Updated: 2023/10/26 18:19:37 by iusantos         ###   ########.fr       */
+/*   Updated: 2023/10/27 10:10:00 by iusantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <errno.h>
-#include <string.h>
 
 void	accumulate_bit(unsigned char *c, unsigned char bit)
 {
@@ -23,15 +21,16 @@ void	accumulate_bit(unsigned char *c, unsigned char bit)
 unsigned char *add_to_str(unsigned char *str, unsigned char c, size_t len)
 {
 	unsigned char *temp;
-	int	i;
+	size_t	i;
 
-	i = 0;
 	temp = (unsigned char *)ft_strdup((char *)str);
 	free(str);
-	str = malloc((len + 1) * sizeof(unsigned char));
+	str = ft_calloc((len + 1), sizeof(unsigned char));
 	if (!str)
 		exit(1);
-	ft_memcpy(str, temp, len - 1);
+	i = -1;
+	while (++i < len - 1)
+		str[i] = temp[i];
 	str[len - 1] = c;
 	str[len] = '\0';
 	free(temp);
@@ -52,7 +51,7 @@ int		save_to_str(unsigned char c)
 	}
 	if (!str)
 	{
-		str = malloc(2 * sizeof(unsigned char));
+		str = ft_calloc(2, sizeof(unsigned char));
 		if (!str)
 			exit(1);
 		str[0] = c;
@@ -86,8 +85,14 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		if (c == '\0')
+		{
+			i = 0;
 			kill(info->si_pid, SIGUSR2);
+			save_to_str(c);
+			return ;
+		}
 		save_to_str(c);
+		c = 0;
 		i = 0; //reiniciar contagem
 	}
 	kill(info->si_pid, SIGUSR1);
